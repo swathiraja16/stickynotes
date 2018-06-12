@@ -34,7 +34,9 @@
         "        </div>\n" +
         "    </section>\n" +
         "</div>";
-
+        var username = prompt("enter passcode:");
+        //var pwd = promt("enter password: ");
+        if(username == 'admin'  ){
        if (localStorage.getItem('title') != null &&localStorage.getItem('content') != null)
         {
             document.getElementById('modal-container').innerHTML = updatedhtml; 
@@ -63,33 +65,15 @@
             document.getElementById('modal-container').innerHTML = "";
 
         });
+    }
+    else {
+        alert("Invalid authentication");
+        document.getElementById('modal-container').innerHTML = "";    
+    }
   
 
     } 
-    function auth(req, res, next){
-        console.log(req.headers);
-        var authHeader = req.headers.authorization;
-        if(!authHeader){
-          var err = new Error('You are not authenticated');
-          res.setHeader('WWW-Authenticate', 'Basic');
-          err.status = 401;
-          next(err);
-          return;
-        }
-      
-        var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
-        var user = auth[0];
-        var pass = auth[1];
-        if (user == 'admin' && pass == 'password'){
-          next();
-        }
-        else {
-          var err = new Error('You are not authenticated');
-          res.setHeader('WWW-Authenticate', 'Basic');
-          err.status = 401;
-          next(err);
-        }
-      }
+    
     function main(){
         document.getElementById('add-note').addEventListener('click',onCreateNoteClick);
         document.getElementById('add-note').innerHTML = "<b>" +  localStorage.getItem('title') + "</b>"+ ":" + '\n' + localStorage.getItem('content');
